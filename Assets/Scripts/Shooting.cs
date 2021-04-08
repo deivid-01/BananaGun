@@ -12,6 +12,8 @@ public class Shooting : MonoBehaviour
 
 
     public static Shooting intance;
+    
+    BulletSpawner bulletSpawner;
 
     private void Awake()
     {
@@ -20,7 +22,7 @@ public class Shooting : MonoBehaviour
 
     void Start()
     {
-
+        bulletSpawner = BulletSpawner.instance;
     }
 
     // Update is called once per frame
@@ -43,19 +45,29 @@ public class Shooting : MonoBehaviour
  
         Ray ray = Camera.main.ScreenPointToRay(position);        
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 50f))
+        if (Physics.Raycast(ray, out RaycastHit hit, 200f))
         {
+            bulletSpawner.SpawnBullet(ray.direction);
+            
 
+            
+            
             if (hit.transform.tag.Equals("Enemy"))
             {
-
-                Destroy(hit.transform.gameObject);
-                GameObject impObj = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-                Destroy(impObj, 1f);
-
+               StartCoroutine( InstantiateEffect(hit));
             }
         }
     
+    }
+
+
+    IEnumerator InstantiateEffect(RaycastHit hit)
+    {
+        yield return new  WaitForSeconds(0.25f);
+        Destroy(hit.transform.gameObject);
+        GameObject impObj = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+        Destroy(impObj, 1f);
+
     }
 
 }
