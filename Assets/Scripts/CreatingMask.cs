@@ -39,7 +39,14 @@ public class CreatingMask : MonoBehaviour
         openCvTools = OpenCvTools.instance;
         shotting = Shooting.intance;
 
-        if (cameraEnabled)
+        if (shotting.shootWithMouse)
+        {
+            image.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+          
+        }
+
+        else if (cameraEnabled)
         {
             OpenCvTools.SetCameraTexture(ref webCamTexture);
             
@@ -47,71 +54,6 @@ public class CreatingMask : MonoBehaviour
 
         }
 
-        else {
-         
-
-            //texture.Resize((int)canvas.rect.width, (int)canvas.rect.height, texture.format,false);
-     
-
-
-          
-
-            /*
-              Mat col_sum = new Mat();
-              Mat row_sum = new Mat();
-
-              // Proyection Vertical
-              Cv2.Reduce(mat, col_sum, ReduceDimension.Column, ReduceTypes.Sum, MatType.CV_32F);
-              // Proyection Horizontal
-              Cv2.Reduce(mat, row_sum, ReduceDimension.Row, ReduceTypes.Sum, MatType.CV_32F);
-
-
-              double col_mean = (Cv2.Sum(col_sum).Val0) / Cv2.CountNonZero(col_sum);
-              double row_mean = (Cv2.Sum(row_sum).Val0) / Cv2.CountNonZero(row_sum);
-
-              Vector2 positionObj = new Vector2();
-
-              if (col_mean > 100 && row_mean > 100)
-              {
-                  double col_tolerance = col_mean / 10;
-                  double row_tolerance = row_mean / 10;
-
-                  for (int i = 0; i < col_sum.Rows; i++)
-                  {
-                      float sum = col_sum.At<float>(new int[] { i, 0 });
-
-                      if (sum > (col_mean - col_tolerance) && sum < (col_mean + col_tolerance))
-                      {
-                          positionObj.y = -1 * i;
-                          break;
-                      }
-                  }
-
-                  for (int i = 0; i < row_sum.Cols; i++)
-                  {
-                      float sum = row_sum.At<float>(new int[] { 0, i });
-
-
-                      if (sum > (row_mean - row_tolerance) && sum < (row_mean + row_tolerance))
-                      {
-                          positionObj.x = i;
-                          break;
-                      }
-                  }
-                  print(positionObj);
-                  target.gameObject.SetActive(true);
-                target.GetComponent<RectTransform>().anchoredPosition = positionObj;
-                // target.transform.position = positionObj; 
-
-              }
-              else
-              {
-                  target.gameObject.SetActive(false);
-              }
-
-              */
-
-        }
 
 
 
@@ -151,6 +93,7 @@ public class CreatingMask : MonoBehaviour
         //print(Cv2.Sum(m).Val0);
         if (Cv2.Sum(m).Val0 > umbralSum)
         {
+            positionObj.y = 720 + positionObj.y;
             shotting.Shoot(positionObj);
 
         }
@@ -210,6 +153,8 @@ public class CreatingMask : MonoBehaviour
                     break;
                 }
             }
+
+            
 
             target.gameObject.SetActive(true);
             target.GetComponent<RectTransform>().anchoredPosition = positionObj;

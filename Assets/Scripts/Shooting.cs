@@ -8,6 +8,8 @@ public class Shooting : MonoBehaviour
     public GameObject impactEffect;
     public float impactForce;
 
+    public bool shootWithMouse= false;
+
 
     public static Shooting intance;
 
@@ -25,21 +27,21 @@ public class Shooting : MonoBehaviour
     void Update()
     {
 
-
-        if (Input.GetMouseButtonDown(0))
+        if ( shootWithMouse)
         {
-          //  Shoot();
+            if (Input.GetMouseButtonDown(0))
+            {
+                  Shoot(Input.mousePosition);
 
+            }
         }
+        
     }
 
     public void Shoot(Vector2 position) 
     {
-
-        position.y = 720 + position.y;
-        Ray ray = Camera.main.ScreenPointToRay(position);
-        
-
+ 
+        Ray ray = Camera.main.ScreenPointToRay(position);        
 
         if (Physics.Raycast(ray, out RaycastHit hit, 50f))
         {
@@ -53,10 +55,7 @@ public class Shooting : MonoBehaviour
 
             }
         }
-        else
-        {
-            //print("Fail shoot")
-;        }
+    
     }
 
 }
