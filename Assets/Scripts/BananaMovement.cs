@@ -4,35 +4,29 @@ using UnityEngine;
 
 public class BananaMovement : MonoBehaviour
 {
-    public Transform[] targets;
+    public float speed = 15;
 
-    public Transform customPivot;
-
-    public float rotateAmount = 1;
-
-    public float turnSpeed=1;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        SmoothLookAt( FindTarget() );
+    }
+
+    Vector3 FindTarget()
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out  hit, 200f))
-        {
-            transform.LookAt(hit.point);
+        return (Physics.Raycast(ray, out RaycastHit hit, 100)) ? hit.point : ray.direction * 100;
+    }
 
-
-        }
-
-
-        // transform.Rotate(Vector3.up,-turnSpeed*Time.deltaTime);
-        //((transform.Rotate(customPivot.position, Vector3.up, 20 * Time.deltaTime);
-
+    void SmoothLookAt(Vector3 target)
+    {
+        Quaternion originalRot = transform.rotation;
+        transform.LookAt(target);
+        Quaternion newRot = transform.rotation;
+        transform.rotation = originalRot;
+        transform.rotation = Quaternion.Lerp(transform.rotation, newRot, speed * Time.deltaTime);
 
     }
+
+
 }

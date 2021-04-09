@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class SpriteTarget : MonoBehaviour
 {
-    RectTransform rectTransform;
 
     Shooting shooting;
     void Start()
     {
         shooting = Shooting.intance;
-        rectTransform = GetComponent<RectTransform>();
-
+        //Hide Cursor
         Cursor.visible = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-       if(shooting.shootWithMouse)
-            transform.position = Input.mousePosition;
+        if (shooting.shootWithMouse)
+            SetPosition();
+           
     }
+
+    void SetPosition() => transform.position = Input.mousePosition;
 }

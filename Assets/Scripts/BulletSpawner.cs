@@ -7,8 +7,6 @@ public class BulletSpawner : MonoBehaviour
 
     public GameObject bullet;
 
-    bool spawnBullet=false;
-
     public static BulletSpawner instance;
 
     public int forceMagnitude=1;
@@ -18,8 +16,10 @@ public class BulletSpawner : MonoBehaviour
         instance = this;
     }
 
-
-
+    private void Start()
+    {
+        GameEvent.instance.OnShoot += SpawnBullet;
+    }
 
     public void SpawnBullet(Vector3 direction)
     {

@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    GameObject bullet;
     public GameObject impactEffect;
-    public float impactForce;
 
     public bool shootWithMouse= false;
 
 
     public static Shooting intance;
     
-    BulletSpawner bulletSpawner;
+ 
 
     private void Awake()
     {
@@ -22,7 +20,7 @@ public class Shooting : MonoBehaviour
 
     void Start()
     {
-        bulletSpawner = BulletSpawner.instance;
+    
     }
 
     // Update is called once per frame
@@ -43,15 +41,12 @@ public class Shooting : MonoBehaviour
     public void Shoot(Vector2 position) 
     {
  
-        Ray ray = Camera.main.ScreenPointToRay(position);        
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 200f))
+        Ray ray = Camera.main.ScreenPointToRay(position);
+       
+        if (Physics.Raycast(ray, out RaycastHit hit, 50))
         {
-            bulletSpawner.SpawnBullet(ray.direction);
-            
-
-            
-            
+            GameEvent.instance.Shooting(ray.direction);
+                   
             if (hit.transform.tag.Equals("Enemy"))
             {
                StartCoroutine( InstantiateEffect(hit));
