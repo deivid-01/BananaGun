@@ -25,7 +25,7 @@ public class BulletSpawner : MonoBehaviour
     {
         GameObject bulletInst = Instantiate(bullet, transform.position, Quaternion.identity);
 
-        bulletInst.GetComponent<Rigidbody>().AddForce(direction * forceMagnitude);
+        bulletInst.GetComponent<Rigidbody>().AddForce( direction* forceMagnitude);
 
         Destroy(bulletInst, 0.25f);
 

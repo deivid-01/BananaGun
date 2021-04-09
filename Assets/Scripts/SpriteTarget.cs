@@ -5,10 +5,9 @@ using UnityEngine;
 public class SpriteTarget : MonoBehaviour
 {
 
-    Shooting shooting;
     void Start()
     {
-        shooting = Shooting.intance;
+        
         //Hide Cursor
         Cursor.visible = false;
     }
@@ -16,7 +15,7 @@ public class SpriteTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (shooting.shootWithMouse)
+        if (UIControls.mouseController)
             SetPosition();
            
     }

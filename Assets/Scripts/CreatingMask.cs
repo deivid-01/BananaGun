@@ -39,7 +39,7 @@ public class CreatingMask : MonoBehaviour
         openCvTools = OpenCvTools.instance;
         shotting = Shooting.intance;
 
-        if (shotting.shootWithMouse)
+        if (UIControls.mouseController)
         {
             image.gameObject.SetActive(false);
             gameObject.SetActive(false);

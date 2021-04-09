@@ -6,7 +6,7 @@ public class Shooting : MonoBehaviour
 {
     public GameObject impactEffect;
 
-    public bool shootWithMouse= false;
+   
 
 
     public static Shooting intance;
@@ -27,7 +27,7 @@ public class Shooting : MonoBehaviour
     void Update()
     {
 
-        if ( shootWithMouse)
+        if ( UIControls.mouseController)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -45,7 +45,7 @@ public class Shooting : MonoBehaviour
        
         if (Physics.Raycast(ray, out RaycastHit hit, 50))
         {
-            GameEvent.instance.Shooting(ray.direction);
+            GameEvent.instance.Shooting( ray.direction);
                    
             if (hit.transform.tag.Equals("Enemy"))
             {
