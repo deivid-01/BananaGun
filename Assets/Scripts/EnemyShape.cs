@@ -40,6 +40,7 @@ public class EnemyShape : MonoBehaviour
     private void OnEnable()
     {
       
-            Destroy(gameObject, 2f);
+          //  Destroy(gameObject, 2f);
     }
+
 }

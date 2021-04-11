@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject prefabEnemy;
+    public GameObject effectShowup;
     
 
     int maxNumEnemys;
@@ -28,7 +29,12 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine( SpawnEnemys() );
+        GameEvent.instance.OnStartGame += StartSpawn;
+    }
+
+    void StartSpawn()
+    {
+        StartCoroutine(SpawnEnemys());
     }
 
 
@@ -42,13 +48,19 @@ public class EnemySpawner : MonoBehaviour
                 {
                     if (!idxsX.Contains(i) || !idxsY.Contains(j) || !idxsZ.Contains(k) ) continue;
 
-                    yield return new WaitForSeconds(0.6f); 
-                    GameObject enemy= Instantiate(prefabEnemy, this.transform.position + enemysPositions[i,j,k], Quaternion.identity);
+                    yield return new WaitForSeconds(0.6f);
+                    GameObject effect= Instantiate(effectShowup, this.transform.position + enemysPositions[i, j, k], Quaternion.identity);
+                    yield return new WaitForSeconds(0.5f);
+                    Destroy(effect, 1);
+                    GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[i,j,k], Quaternion.identity);
 
                     enemy.transform.parent = gameObject.transform;
                 }
             }
         }
+
+        yield return new WaitForSeconds(2);
+        GameEvent.instance.RoundEnds();
     }
 
     void SetEnemyPositions()

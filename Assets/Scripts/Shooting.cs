@@ -18,10 +18,7 @@ public class Shooting : MonoBehaviour
         intance = this;
     }
 
-    void Start()
-    {
-    
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -49,6 +46,7 @@ public class Shooting : MonoBehaviour
                    
             if (hit.transform.tag.Equals("Enemy"))
             {
+                GameEvent.instance.EnemyDestroyed();
                StartCoroutine( InstantiateEffect(hit));
             }
         }

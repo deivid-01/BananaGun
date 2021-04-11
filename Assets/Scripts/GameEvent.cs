@@ -20,8 +20,15 @@ public class GameEvent : MonoBehaviour
     #endregion
 
     public event Action<Vector3> OnShoot;
+    public event Action OnEnemyDestroyed;
+    public event Action OnStartGame;
+    public event Action OnRoundEnds;
 
 
     public void Shooting(Vector3 direction) => OnShoot?.Invoke(direction);
+
+    internal void EnemyDestroyed() => OnEnemyDestroyed?.Invoke();
+    internal void StartGame() => OnStartGame?.Invoke();
+    internal void RoundEnds() => OnRoundEnds?.Invoke();
 
 }
