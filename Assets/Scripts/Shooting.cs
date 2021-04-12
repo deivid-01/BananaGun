@@ -40,7 +40,7 @@ public class Shooting : MonoBehaviour
  
         Ray ray = Camera.main.ScreenPointToRay(position);
        
-        if (Physics.Raycast(ray, out RaycastHit hit, 50))
+        if (Physics.Raycast(ray, out RaycastHit hit, 200))
         {
             GameEvent.instance.Shooting( ray.direction);
                    

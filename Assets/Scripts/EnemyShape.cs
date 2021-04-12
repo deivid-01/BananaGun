@@ -23,6 +23,7 @@ public class EnemyShape : MonoBehaviour
     {
         Vector3 shape;
 
+        
         shape.x = Random.Range(minimumSize.x, maximumSize.x);
         shape.y = Random.Range(minimumSize.y, maximumSize.y);
         shape.z = Random.Range(minimumSize.z, maximumSize.z);

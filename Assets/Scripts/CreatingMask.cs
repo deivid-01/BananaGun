@@ -22,6 +22,7 @@ public class CreatingMask : MonoBehaviour
 
     bool done = false;
     int cont = 0;
+    int lasti = 0;
 
     public bool cameraEnabled = true;
 
@@ -29,11 +30,13 @@ public class CreatingMask : MonoBehaviour
 
     public int umbral;
     public int iterations;
+    public float speedPointer;
+    public int toleranceTarget=55;
 
     int umbralSum= 50000;
     OpenCvTools openCvTools;
     Shooting shotting;
-    Vector2 positionObj = new Vector2();
+    public static Vector2 positionObj = new Vector2();
     private void Start()
     {
         openCvTools = OpenCvTools.instance;
@@ -64,9 +67,10 @@ public class CreatingMask : MonoBehaviour
 
         mat = OpenCvSharp.Unity.TextureToMat(webCamTexture);
         Cv2.CvtColor(mat, mat, ColorConversionCodes.BGR2Lab);
+     
 
-       FindMuzzel(mat.ExtractChannel(1));
-        FindLazer(mat.ExtractChannel(1));
+       FindMuzzel(mat.ExtractChannel(1).Flip(FlipMode.Y));
+        FindLazer(mat.ExtractChannel(1).Flip(FlipMode.Y));
 
 
 
@@ -78,40 +82,40 @@ public class CreatingMask : MonoBehaviour
 
         //Morfo : Cleaning
         // Cv2.Threshold(m, m, 111, 255, ThresholdTypes.BinaryInv);
-        Cv2.Threshold(m, m, 167, 255, ThresholdTypes.Binary);
+        Cv2.Threshold(m, m, 150, 255, ThresholdTypes.Binary);
 
 
         Mat strElem = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(3, 3));
 
 
-        // Cv2.MorphologyEx(m, m, MorphTypes.Close, strElem, iterations: 4);
-        //Cv2.MorphologyEx(m, m, MorphTypes.Open, strElem, iterations: 10);
-        Cv2.MorphologyEx(m, m, MorphTypes.Open, strElem, iterations: 1);
+         Cv2.MorphologyEx(m, m, MorphTypes.Open, strElem, iterations: 5);
+       // Cv2.MorphologyEx(m, m, MorphTypes.Open, strElem, iterations: 3);
+        //Cv2.MorphologyEx(m, m, MorphTypes.Open, strElem, iterations: 1);
 
-      //  image.texture = OpenCvSharp.Unity.MatToTexture(m);
+        //image.texture = OpenCvSharp.Unity.MatToTexture(m);
 
         //print(Cv2.Sum(m).Val0);
         if (Cv2.Sum(m).Val0 > umbralSum)
         {
-            positionObj.y = 720 + positionObj.y;
-            shotting.Shoot(positionObj);
+           
+            shotting.Shoot(new Vector2(positionObj.x, 720 + positionObj.y));
 
         }
     }
-    void FindMuzzel(Mat m)
+    void FindMuzzel( Mat m)
     {
-
-        Cv2.Threshold(m, m, 111, 255, ThresholdTypes.BinaryInv);
+        //113 -> Light on | Night
+        Cv2.Threshold(m, m, 113, 255, ThresholdTypes.BinaryInv);
         // Cv2.Threshold(m, m, 170, 255, ThresholdTypes.Binary);//ideal ->180
-
-         
-
+      
         Mat strElem = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(3, 3));
-        OpenCvTools.rawImage = image;
+       // OpenCvTools.rawImage = image;
         //Cv2.MorphologyEx(m, m, MorphTypes.Close, strElem, iterations: 15);
         Cv2.MorphologyEx(m, m, MorphTypes.Open, strElem, iterations: 3);
+         //image.texture = OpenCvSharp.Unity.MatToTexture(m);
 
-        //image.texture = OpenCvSharp.Unity.MatToTexture(m);
+
+
         Mat col_sum = new Mat();
         Mat row_sum = new Mat();
 
@@ -120,16 +124,20 @@ public class CreatingMask : MonoBehaviour
         // Proyection Horizontal
         Cv2.Reduce(m, row_sum, ReduceDimension.Row, ReduceTypes.Sum, MatType.CV_32F);
 
-
+       
         double col_mean = (Cv2.Sum(col_sum).Val0) / Cv2.CountNonZero(col_sum);
         double row_mean = (Cv2.Sum(row_sum).Val0) / Cv2.CountNonZero(row_sum);
-
+        
        
+
+
 
         if (col_mean > 100 && row_mean > 100)
         {
             double col_tolerance = col_mean / 10;
             double row_tolerance = row_mean / 10;
+
+            
 
             for (int i = 0; i < col_sum.Rows; i++)
             {
@@ -137,8 +145,13 @@ public class CreatingMask : MonoBehaviour
 
                 if (sum > (col_mean - col_tolerance) && sum < (col_mean + col_tolerance))
                 {
-                    positionObj.y = -1 * i;
-                    break;
+                    if (i >= lasti + toleranceTarget || i <= lasti- toleranceTarget) // Tolerance => 50 or -50 ( Standard desviation)
+                    {
+                        lasti = i;
+                        positionObj.y = -1 * i;
+                        break;
+                    }
+                    
                 }
             }
 
@@ -149,15 +162,18 @@ public class CreatingMask : MonoBehaviour
 
                 if (sum > (row_mean - row_tolerance) && sum < (row_mean + row_tolerance))
                 {
-                    positionObj.x = i;
-                    break;
+                    if (i >= positionObj.x + toleranceTarget || i <= positionObj.x - toleranceTarget)
+                    {
+                        positionObj.x = i;
+                        break;
+                    }
                 }
             }
 
             
 
             target.gameObject.SetActive(true);
-            target.GetComponent<RectTransform>().anchoredPosition = positionObj;
+            target.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(target.GetComponent<RectTransform>().anchoredPosition, positionObj, speedPointer * Time.deltaTime);
             // target.transform.position = positionObj; 
 
         }
@@ -165,12 +181,8 @@ public class CreatingMask : MonoBehaviour
         {
             target.gameObject.SetActive(false);
         }
+        
 
-    }
-
-    void Shoot()
-    {
-        Debug.Log(" Piu piu bu bum buuum");
     }
 
 

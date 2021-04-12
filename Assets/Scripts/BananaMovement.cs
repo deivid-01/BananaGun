@@ -13,7 +13,9 @@ public class BananaMovement : MonoBehaviour
 
     Vector3 FindTarget()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Vector2 pos = (UIControls.mouseController) ? Input.mousePosition : new Vector3(CreatingMask.positionObj.x, 720 + CreatingMask.positionObj.y);
+  
+        Ray ray = Camera.main.ScreenPointToRay(pos);
 
         return (Physics.Raycast(ray, out RaycastHit hit, 100)) ? hit.point : ray.direction * 100;
     }

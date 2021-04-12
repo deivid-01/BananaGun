@@ -96,7 +96,7 @@ public class EnemySpawner : MonoBehaviour
     {
         while (idxs.Count < maxSize/2)
         {
-            int idx = Random.Range(0, maxSize);
+            int idx = Random.Range(-1, maxSize);
             if (!idxs.Contains(idx))
             {
                 idxs.Add(idx);

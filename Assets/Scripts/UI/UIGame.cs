@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class UIGame : MonoBehaviour
 {
     public GameObject pointsSection;
@@ -21,6 +21,11 @@ public class UIGame : MonoBehaviour
     public void CounterIsOver()
     {
         GameEvent.instance.StartGame();
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 
