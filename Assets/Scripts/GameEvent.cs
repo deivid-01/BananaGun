@@ -23,6 +23,7 @@ public class GameEvent : MonoBehaviour
     public event Action OnEnemyDestroyed;
     public event Action OnStartGame;
     public event Action OnRoundEnds;
+    public event Action OnOptionSelected;
 
 
     public void Shooting(Vector3 direction) => OnShoot?.Invoke(direction);
@@ -30,5 +31,6 @@ public class GameEvent : MonoBehaviour
     internal void EnemyDestroyed() => OnEnemyDestroyed?.Invoke();
     internal void StartGame() => OnStartGame?.Invoke();
     internal void RoundEnds() => OnRoundEnds?.Invoke();
+    internal void OptionSelected() => OnOptionSelected?.Invoke();
 
 }

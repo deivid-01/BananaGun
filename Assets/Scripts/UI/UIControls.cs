@@ -5,14 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class UIControls : MonoBehaviour
 {
-    public UnityEngine.Object nextScene;
+    public string nextScene;
 
     public static bool mouseController = true;
 
     public void SetController(bool option)
     {
+        PlayerPrefs.SetInt("mouseActive", option?1:0);
         mouseController = option;
 
-        SceneManager.LoadScene(nextScene.name);
+        SceneManager.LoadScene(nextScene);
     }
 }

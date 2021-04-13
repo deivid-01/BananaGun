@@ -9,11 +9,15 @@ public class UIGame : MonoBehaviour
     public Text textTotalPoints;
     void Start()
     {
-        GameEvent.instance.OnRoundEnds += DisplayPoints;        
+        GameEvent.instance.OnRoundEnds += DisplayPoints;
+
+        UIControls.mouseController = (PlayerPrefs.GetInt("mouseActive", 0)==1)?true:false;
     }
 
     void DisplayPoints()
     {
+     
+        Cursor.visible = true;
         pointsSection.SetActive(true);
         textTotalPoints.text = (PointsController.totalPoints).ToString();
     }
