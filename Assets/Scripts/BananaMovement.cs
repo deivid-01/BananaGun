@@ -4,10 +4,32 @@ using UnityEngine;
 
 public class BananaMovement : MonoBehaviour
 {
-    public float speed = 15;
+    public float speedRotation = 15;
+    public float speedTranslate = 10;
+    Vector3 originPosition;
+ 
+    private void Start()
+    {
+        originPosition = transform.position;
+        GameEvent.instance.OnShoot += Recoil;
+        
+    }
+
+    void Recoil(Vector3 v)
+    {
+        transform.Rotate(Vector3.left* Random.Range(20f, 40f));
+        transform.Translate(new Vector3(0, Random.Range(0.1f, 0.5f),-Random.Range(0.3f, 1.0f)));
+    }
+
+    private void OnDestroy()
+    {
+        GameEvent.instance.OnShoot -= Recoil;
+    }
 
     void Update()
     {
+        if(transform.position.x!=originPosition.x)
+            transform.position =Vector3.Lerp(transform.position,originPosition, speedTranslate * Time.deltaTime);
         SmoothLookAt( FindTarget() );
     }
 
@@ -26,7 +48,7 @@ public class BananaMovement : MonoBehaviour
         transform.LookAt(target);
         Quaternion newRot = transform.rotation;
         transform.rotation = originalRot;
-        transform.rotation = Quaternion.Lerp(transform.rotation, newRot, speed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, newRot, speedRotation * Time.deltaTime);
 
     }
 

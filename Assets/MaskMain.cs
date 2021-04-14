@@ -16,7 +16,7 @@ public class MaskMain : MonoBehaviour
 
     void Start()
     {
-        GameEvent.instance.OnOptionSelected += StopCamera;
+      
 
 
         if (UIControls.mouseController)
@@ -25,7 +25,9 @@ public class MaskMain : MonoBehaviour
             target.gameObject.SetActive(false);
             return;
         }
-            OpenCvTools.SetCameraTexture(ref webCamTexture);
+
+        GameEvent.instance.OnOptionSelected += StopCamera;
+        OpenCvTools.SetCameraTexture(ref webCamTexture);
 
             cameraImage.texture = webCamTexture;
         

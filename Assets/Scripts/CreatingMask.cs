@@ -38,7 +38,6 @@ public class CreatingMask : MonoBehaviour
     public static Vector2 positionObj = new Vector2();
     private void Start()
     {
-        GameEvent.instance.OnRoundEnds += StopCamera;
         openCvTools = OpenCvTools.instance;
         shotting = Shooting.intance;
 
@@ -46,7 +45,7 @@ public class CreatingMask : MonoBehaviour
         {
             image.gameObject.SetActive(false);
             gameObject.SetActive(false);
-          
+            return;
         }
 
         else if (cameraEnabled)
@@ -57,9 +56,15 @@ public class CreatingMask : MonoBehaviour
 
         }
 
+        GameEvent.instance.OnRoundEnds += StopCamera;
 
 
 
+    }
+
+    private void OnDestroy()
+    {
+        GameEvent.instance.OnRoundEnds -= StopCamera;
     }
 
     private void Update()

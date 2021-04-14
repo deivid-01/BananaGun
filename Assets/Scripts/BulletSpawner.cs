@@ -20,6 +20,11 @@ public class BulletSpawner : MonoBehaviour
     {
         GameEvent.instance.OnShoot += SpawnBullet;
     }
+    private void OnDestroy()
+    {
+        GameEvent.instance.OnShoot -= SpawnBullet;
+
+    }
 
     public void SpawnBullet(Vector3 direction)
     {

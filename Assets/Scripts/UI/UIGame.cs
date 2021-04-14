@@ -7,11 +7,16 @@ public class UIGame : MonoBehaviour
 {
     public GameObject pointsSection;
     public Text textTotalPoints;
+    public string nextScene;
     void Start()
     {
         GameEvent.instance.OnRoundEnds += DisplayPoints;
 
         UIControls.mouseController = (PlayerPrefs.GetInt("mouseActive", 0)==1)?true:false;
+    }
+    private void OnDestroy()
+    {
+        GameEvent.instance.OnRoundEnds -= DisplayPoints;
     }
 
     void DisplayPoints()
@@ -24,11 +29,13 @@ public class UIGame : MonoBehaviour
 
     public void CounterIsOver()
     {
+  
         GameEvent.instance.StartGame();
     }
 
     public void RestartGame()
     {
+        StopAllCoroutines();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
