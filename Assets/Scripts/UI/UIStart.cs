@@ -24,7 +24,11 @@ public class UIStart : MonoBehaviour
     private void Start()
     {
         customBtns.ForEach(elem => elem.rect = elem.btn.GetComponent<RectTransform>());
-   
+
+        if (UIControls.mouseController)
+        {
+            delta /= 10;
+        }
     }
 
     public void Exit() 
@@ -44,9 +48,9 @@ public class UIStart : MonoBehaviour
 
     void SetPercentajes()
     {
-        Vector2 pos = Vector2.up*720+ MaskMain.positionObj;
-
-        //Start
+         
+        Vector2 pos = (!UIControls.mouseController)?Vector2.up*720+ MaskMain.positionObj: (Vector2)Input.mousePosition;
+        
         bool horizontalCheckStart = pos.x >= 315 && pos.x <= 715;
         bool verticalCheckStart = pos.y >= 31 && pos.y <= 264;
 
