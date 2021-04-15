@@ -11,7 +11,7 @@ public class BananaMovement : MonoBehaviour
     private void Start()
     {
         originPosition = transform.position;
-        GameEvent.instance.OnShoot += Recoil;
+        GameEvent.instance.OnShooting += Recoil;
         
     }
 
@@ -23,7 +23,7 @@ public class BananaMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameEvent.instance.OnShoot -= Recoil;
+        GameEvent.instance.OnShooting -= Recoil;
     }
 
     void Update()
@@ -35,7 +35,7 @@ public class BananaMovement : MonoBehaviour
 
     Vector3 FindTarget()
     {
-        Vector2 pos = (UIControls.mouseController) ? Input.mousePosition : new Vector3(CreatingMask.positionObj.x, 720 + CreatingMask.positionObj.y);
+        Vector2 pos = (UIControls.mouseController) ? Input.mousePosition : new Vector3(Pointer.instance.rect.anchoredPosition.x, 720 + Pointer.instance.rect.anchoredPosition.y);
   
         Ray ray = Camera.main.ScreenPointToRay(pos);
 

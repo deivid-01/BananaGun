@@ -18,19 +18,27 @@ public class GameEvent : MonoBehaviour
         }
     }
     #endregion
+    public event Action<Vector2> OnStartShoot;
 
-    public event Action<Vector3> OnShoot;
+    public event Action<Vector3> OnShooting;
     public event Action OnEnemyDestroyed;
     public event Action OnStartGame;
     public event Action OnRoundEnds;
     public event Action OnOptionSelected;
+    public event Action<Vector2> OnMuzzelDetected;
+    public event Action OnMuzzelNotDetected;
+    public event Action OnLoadingNextScene;
 
 
-    public void Shooting(Vector3 direction) => OnShoot?.Invoke(direction);
+    public void Shooting(Vector3 direction) => OnShooting?.Invoke(direction);
+    public void StartShoot(Vector2 position) => OnStartShoot?.Invoke(position);
 
     internal void EnemyDestroyed() => OnEnemyDestroyed?.Invoke();
     internal void StartGame() => OnStartGame?.Invoke();
     internal void RoundEnds() => OnRoundEnds?.Invoke();
     internal void OptionSelected() => OnOptionSelected?.Invoke();
+    internal void MuzzelDetected(Vector2 position) => OnMuzzelDetected?.Invoke(position);
+    internal void MuzzelNotDetected() => OnMuzzelNotDetected?.Invoke();
+    internal void LoadingNextScene() => OnLoadingNextScene?.Invoke();
 
 }

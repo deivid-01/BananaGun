@@ -20,9 +20,13 @@ public class UIStart : MonoBehaviour
 
     public string nextScene;
 
+    Pointer pointer; 
+
     public float delta;
     private void Start()
     {
+        pointer = Pointer.instance;
+        
         customBtns.ForEach(elem => elem.rect = elem.btn.GetComponent<RectTransform>());
 
         if (UIControls.mouseController)
@@ -49,7 +53,7 @@ public class UIStart : MonoBehaviour
     void SetPercentajes()
     {
          
-        Vector2 pos = (!UIControls.mouseController)?Vector2.up*720+ MaskMain.positionObj: (Vector2)Input.mousePosition;
+        Vector2 pos = (!UIControls.mouseController)?Vector2.up*720+ pointer.rect.anchoredPosition: (Vector2)Input.mousePosition;
         
         bool horizontalCheckStart = pos.x >= 315 && pos.x <= 715;
         bool verticalCheckStart = pos.y >= 31 && pos.y <= 264;
@@ -63,6 +67,7 @@ public class UIStart : MonoBehaviour
 
         if (customBtns[0].percen == 1)
         {
+            GameEvent.instance.LoadingNextScene();
             GameEvent.instance.OptionSelected();
             StarGame();
         }
@@ -74,7 +79,7 @@ public class UIStart : MonoBehaviour
   
 
     public void StarGame()
-    {
+    { 
         SceneManager.LoadScene(nextScene);
     }
 

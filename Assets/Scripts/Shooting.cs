@@ -10,8 +10,11 @@ public class Shooting : MonoBehaviour
 
 
     public static Shooting intance;
-    
- 
+
+    private void Start()
+    {
+        GameEvent.instance.OnStartShoot += Shoot;
+    }
 
     private void Awake()
     {

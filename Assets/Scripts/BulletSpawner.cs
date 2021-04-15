@@ -18,11 +18,11 @@ public class BulletSpawner : MonoBehaviour
 
     private void Start()
     {
-        GameEvent.instance.OnShoot += SpawnBullet;
+        GameEvent.instance.OnShooting += SpawnBullet;
     }
     private void OnDestroy()
     {
-        GameEvent.instance.OnShoot -= SpawnBullet;
+        GameEvent.instance.OnShooting -= SpawnBullet;
 
     }
 
