@@ -5,26 +5,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System;
 
-public static class RandomNew
-{
-    public static void Shuffle<T>(this IList<T> list)
-    {
-        RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-        int n = list.Count;
-        while (n > 1)
-        {
-            byte[] box = new byte[1];
-            do provider.GetBytes(box);
-            while (!(box[0] < n * (Byte.MaxValue / n)));
-            int k = (box[0] % n);
-            n--;
-            T value = list[k];
-            list[k] = list[n];
-            list[n] = value;
-        }
-    }
-}
-public class EnemySpawner : MonoBehaviour
+
+public class EnemySpawner2 : MonoBehaviour
 {
     struct elements
     {
@@ -34,6 +16,13 @@ public class EnemySpawner : MonoBehaviour
 
     }
 
+    [Serializable]
+    public struct ColorCustom
+    {
+        public Color color;
+        public string name;
+    }
+
 
     public GameObject prefabEnemy;
     public GameObject effectShowup;
@@ -41,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
 
     public  int maxNumEnemys = 20;
     public Vector3 dimensions;
+    public List<ColorCustom> randomColors = new List<ColorCustom>();
 
     Vector3[,,] enemysPositions;
 
@@ -52,6 +42,8 @@ public class EnemySpawner : MonoBehaviour
     List<int> randomDimZ = new List<int>();
     List<elements> elementos = new List<elements>();
 
+  
+
 
 
     private void Awake()
@@ -60,6 +52,7 @@ public class EnemySpawner : MonoBehaviour
         SetEnemyPositions();
         SetGoldIndexs();
        SetRandomStacks();
+        
         
 
     }
@@ -123,8 +116,9 @@ public class EnemySpawner : MonoBehaviour
        
 
 
-        while (spawnedEnemies <maxNumEnemys)
+        while (spawnedEnemies <=maxNumEnemys)
             {
+            
             elements elem;
 
             elem.i = UnityEngine.Random.Range(0, (int)dimensions.x);
@@ -149,20 +143,52 @@ public class EnemySpawner : MonoBehaviour
             {
                 randomDimZ.Remove(elem.k);
             }
-          
-            yield return new WaitForSeconds(1.5f);
-                   GameObject effect= Instantiate(effectShowup, this.transform.position + enemysPositions[elem.i, elem.j,elem. k], Quaternion.identity);
-            yield return new WaitForSeconds(0.5f);
-                 Destroy(effect, 1);
-                  GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[elem.i,elem. j,elem.k], Quaternion.identity);
-                  //GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[i, j,k], Quaternion.identity);
 
-            enemy.transform.parent = gameObject.transform;
-            
-            spawnedEnemies += 1;
-         }
+            if (spawnedEnemies % 10 == 0)
+            {
+
+                if (randomColors.Count == 0) break; 
+
+                int idxC = UnityEngine.Random.Range(0, randomColors.Count);
+                GameEvent.instance.ChangeEnemyColor(randomColors[idxC].color, randomColors[idxC].name);
+                randomColors.RemoveAt(idxC);
+                
+
+                yield return new WaitForSeconds(3f);
+                GameObject effect = Instantiate(effectShowup, this.transform.position + enemysPositions[elem.i, elem.j, elem.k], Quaternion.identity);
+                yield return new WaitForSeconds(0.5f);
+                Destroy(effect, 1);
+                GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[elem.i, elem.j, elem.k], Quaternion.identity);
+                enemy.GetComponent<Renderer>().material.color= randomColors[idxC].color;
+                //GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[i, j,k], Quaternion.identity);
+
+                enemy.transform.parent = gameObject.transform;
+
+                spawnedEnemies += 1;
+
+            }
+            else
+
+            {
+                if (spawnedEnemies % 10 == 0) continue;
+                    yield return new WaitForSeconds(1.5f);
+                GameObject effect = Instantiate(effectShowup, this.transform.position + enemysPositions[elem.i, elem.j, elem.k], Quaternion.identity);
+                yield return new WaitForSeconds(0.5f);
+                Destroy(effect, 1);
+                GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[elem.i, elem.j, elem.k], Quaternion.identity);
+                //GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[i, j,k], Quaternion.identity);
+
+                enemy.transform.parent = gameObject.transform;
+
+                spawnedEnemies += 1;
+            }
 
 
+           
+        }
+
+
+       
 
         yield return new WaitForSeconds(2);
     
