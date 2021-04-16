@@ -14,7 +14,7 @@ public class UIGame : MonoBehaviour
     
     private void Awake()
     {
-       UIControls.mouseController = true;
+      // UIControls.mouseController = true;
     }
     void Start()
     {
@@ -23,7 +23,7 @@ public class UIGame : MonoBehaviour
 
      
        
-        // UIControls.mouseController = (PlayerPrefs.GetInt("mouseActive", 0)==1)?true:false;
+         UIControls.mouseController = (PlayerPrefs.GetInt("mouseActive", 0)==1)?true:false;
     }
     private void OnDestroy()
     {
@@ -65,6 +65,7 @@ public class UIGame : MonoBehaviour
     public void NextRound()
     {
         ResetAll();
+        GameEvent.instance.RoundEnds();
         GameEvent.instance.LoadingNextScene();
         SceneManager.LoadScene(nextScene);
 
