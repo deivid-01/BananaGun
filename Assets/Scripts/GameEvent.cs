@@ -30,6 +30,8 @@ public class GameEvent : MonoBehaviour
     public event Action OnLoadingNextScene;
     public event Action OnRestartingGame;
     public event Action OnEnemySuccess;
+    public event Action <Color,string>OnChangeEnemyColor;
+
 
 
     public void Shooting(Vector3 direction) => OnShooting?.Invoke(direction);
@@ -44,5 +46,6 @@ public class GameEvent : MonoBehaviour
     internal void LoadingNextScene() => OnLoadingNextScene?.Invoke();
     internal void RestartingGame() => OnRestartingGame?.Invoke();
     internal void EnemySuccess() => OnEnemySuccess?.Invoke();
+    internal void ChangeEnemyColor(Color color,string name) => OnChangeEnemyColor?.Invoke(color,name);
 
 }
