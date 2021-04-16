@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RoundSystem : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public static int actualRound = 0;
     void Start()
     {
         GameEvent.instance.OnRoundEnds += RoundEnds;
@@ -12,7 +12,7 @@ public class RoundSystem : MonoBehaviour
 
     public void RoundEnds()
     {
-        print("Round ended");
+        actualRound += 1;
     }
 
 

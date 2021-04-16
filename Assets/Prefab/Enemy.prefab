@@ -112,6 +112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectFail: {fileID: 8104700468467765066, guid: 88df4626651677846bdc4ea5f517709e,
     type: 3}
+  effectNothing: {fileID: 8104700468467765066, guid: 5486cda9a5c10e24e93775101fb69f93,
+    type: 3}
+  enemyColor: 
 --- !u!65 &6257187841808474447
 BoxCollider:
   m_ObjectHideFlags: 0

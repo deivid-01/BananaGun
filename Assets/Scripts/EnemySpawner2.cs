@@ -20,6 +20,7 @@ public class EnemySpawner2 : MonoBehaviour
     public struct ColorCustom
     {
         public Color color;
+        public Color emissionColor;
         public string name;
     }
 
@@ -41,6 +42,10 @@ public class EnemySpawner2 : MonoBehaviour
     List<int> randomDimY = new List<int>();
     List<int> randomDimZ = new List<int>();
     List<elements> elementos = new List<elements>();
+
+    List<int> idxsUsed = new List<int>();
+
+    public static  ColorCustom actualColor;
 
   
 
@@ -147,41 +152,48 @@ public class EnemySpawner2 : MonoBehaviour
             if (spawnedEnemies % 10 == 0)
             {
 
-                if (randomColors.Count == 0) break; 
+                if (randomColors.Count == 0) break;
 
-                int idxC = UnityEngine.Random.Range(0, randomColors.Count);
+                int idxC = 0;
+
+                while (true)
+                { 
+                    idxC = UnityEngine.Random.Range(0, randomColors.Count);
+
+                    if (!idxsUsed.Contains(idxC))
+                    {
+                        idxsUsed.Add(idxC);
+                        break;
+                    }
+
+                }
+
+
                 GameEvent.instance.ChangeEnemyColor(randomColors[idxC].color, randomColors[idxC].name);
-                randomColors.RemoveAt(idxC);
+                actualColor = randomColors[idxC];
                 
+              
 
-                yield return new WaitForSeconds(3f);
+
+            }
+
+            int randomValue = UnityEngine.Random.Range(0, randomColors.Count);
+            yield return new WaitForSeconds(3f);
                 GameObject effect = Instantiate(effectShowup, this.transform.position + enemysPositions[elem.i, elem.j, elem.k], Quaternion.identity);
                 yield return new WaitForSeconds(0.5f);
                 Destroy(effect, 1);
                 GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[elem.i, elem.j, elem.k], Quaternion.identity);
-                enemy.GetComponent<Renderer>().material.color= randomColors[idxC].color;
-                //GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[i, j,k], Quaternion.identity);
+                Material matEnemy = enemy.GetComponent<Renderer>().material;
+                matEnemy.SetColor("_Color", randomColors[randomValue] .color);
+                matEnemy.SetColor("_EmissionColor", randomColors[randomValue].emissionColor);
+            enemy.GetComponent<EnemyShape>().enemyColor = randomColors[randomValue].name;
+            //GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[i, j,k], Quaternion.identity);
 
-                enemy.transform.parent = gameObject.transform;
-
-                spawnedEnemies += 1;
-
-            }
-            else
-
-            {
-                if (spawnedEnemies % 10 == 0) continue;
-                    yield return new WaitForSeconds(1.5f);
-                GameObject effect = Instantiate(effectShowup, this.transform.position + enemysPositions[elem.i, elem.j, elem.k], Quaternion.identity);
-                yield return new WaitForSeconds(0.5f);
-                Destroy(effect, 1);
-                GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[elem.i, elem.j, elem.k], Quaternion.identity);
-                //GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[i, j,k], Quaternion.identity);
-
-                enemy.transform.parent = gameObject.transform;
+            enemy.transform.parent = gameObject.transform;
 
                 spawnedEnemies += 1;
-            }
+
+         
 
 
            

@@ -68,6 +68,7 @@ public class Shooting : MonoBehaviour
         {
             Destroy(hit.transform.gameObject);
         }
+        
             
         GameObject impObj = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(impObj, 1f);
