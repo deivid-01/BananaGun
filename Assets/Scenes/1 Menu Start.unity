@@ -238,6 +238,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 9165042441016448850, guid: 0f2b372ef4a67c04aa087d6f4aa22dfd,
+        type: 3}
+      propertyPath: speed
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f2b372ef4a67c04aa087d6f4aa22dfd, type: 3}
 --- !u!1 &211047430
@@ -497,7 +502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rawImageCamera: {fileID: 564054797}
-  toleranceMuzzle: 30
+  toleranceMuzzle: 50
   findMuzzle: 1
   findLazer: 0
 --- !u!4 &391328561

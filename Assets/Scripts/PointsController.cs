@@ -8,6 +8,13 @@ public class PointsController : MonoBehaviour
     void Start()
     {
         GameEvent.instance.OnEnemyDestroyed += IncreasePoints;
+        GameEvent.instance.OnRestartingGame += ResetPoints;
+    }
+
+    private void OnDestroy()
+    {
+        GameEvent.instance.OnEnemyDestroyed -= IncreasePoints;
+        GameEvent.instance.OnRestartingGame -= ResetPoints;
     }
 
 
@@ -19,5 +26,10 @@ public class PointsController : MonoBehaviour
     void DecreasePoints()
     {
         totalPoints -= 100;
+    }
+
+    void ResetPoints()
+    {
+        totalPoints = 0;
     }
 }

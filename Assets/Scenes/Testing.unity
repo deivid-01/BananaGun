@@ -198,8 +198,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0012817, y: 0}
-  m_SizeDelta: {x: 1279.9974, y: 720}
+  m_AnchoredPosition: {x: -0.0097351, y: 0.021759}
+  m_SizeDelta: {x: 1279.9802, y: 719.9565}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &186572836
 MonoBehaviour:
@@ -266,7 +266,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rawImageCamera: {fileID: 186572836}
   toleranceMuzzle: 50
-  findMuzzle: 1
+  thresholdLazer: 145
+  findMuzzle: 0
   findLazer: 1
 --- !u!4 &688313587
 Transform:
@@ -409,8 +410,8 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -760,6 +761,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9165042441016448850, guid: 0f2b372ef4a67c04aa087d6f4aa22dfd,
+        type: 3}
+      propertyPath: speed
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f2b372ef4a67c04aa087d6f4aa22dfd, type: 3}

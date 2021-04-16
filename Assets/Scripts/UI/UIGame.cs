@@ -8,11 +8,17 @@ public class UIGame : MonoBehaviour
     public GameObject pointsSection;
     public Text textTotalPoints;
     public string nextScene;
+
+    private void Awake()
+    {
+        UIControls.mouseController = true;
+    }
     void Start()
     {
         GameEvent.instance.OnRoundEnds += DisplayPoints;
 
-        UIControls.mouseController = (PlayerPrefs.GetInt("mouseActive", 0)==1)?true:false;
+     
+        // UIControls.mouseController = (PlayerPrefs.GetInt("mouseActive", 0)==1)?true:false;
     }
     private void OnDestroy()
     {
@@ -35,6 +41,8 @@ public class UIGame : MonoBehaviour
 
     public void RestartGame()
     {
+        GameEvent.instance.RestartingGame();
+        PointsController.totalPoints = 0;
         StopAllCoroutines();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

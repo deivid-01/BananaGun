@@ -28,6 +28,7 @@ public class GameEvent : MonoBehaviour
     public event Action<Vector2> OnMuzzelDetected;
     public event Action OnMuzzelNotDetected;
     public event Action OnLoadingNextScene;
+    public event Action OnRestartingGame;
 
 
     public void Shooting(Vector3 direction) => OnShooting?.Invoke(direction);
@@ -40,5 +41,6 @@ public class GameEvent : MonoBehaviour
     internal void MuzzelDetected(Vector2 position) => OnMuzzelDetected?.Invoke(position);
     internal void MuzzelNotDetected() => OnMuzzelNotDetected?.Invoke();
     internal void LoadingNextScene() => OnLoadingNextScene?.Invoke();
+    internal void RestartingGame() => OnRestartingGame?.Invoke();
 
 }

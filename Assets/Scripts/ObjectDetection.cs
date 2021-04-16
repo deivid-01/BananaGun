@@ -18,7 +18,7 @@ public class ObjectDetection
 
         ApplyMorphology(ref m);
 
-        //image.texture = OpenCvSharp.Unity.MatToTexture(m);
+        //
 
         // Proyection Vertical
         Cv2.Reduce(m, col_proyection, ReduceDimension.Column, ReduceTypes.Sum, MatType.CV_32F);
@@ -48,16 +48,17 @@ public class ObjectDetection
      
     }
 
-    public static bool DetectLazer(ref RawImage rawImage, Mat m, int umbralSum)
+    public static bool DetectLazer(ref RawImage rawImage, int threshHoldLazer,Mat m, int umbralSum)
     {
 
 
-        Cv2.Threshold(m, m, 170, 255, ThresholdTypes.Binary);
+        Cv2.Threshold(m, m, 145, 255, ThresholdTypes.Binary);
 
+       // rawImage.texture = OpenCvSharp.Unity.MatToTexture(m);
 
         Mat strElem = Cv2.GetStructuringElement(MorphShapes.Cross, new Size(3, 3));
         Cv2.MorphologyEx(m, m, MorphTypes.Open, strElem, iterations: 20);
-        rawImage.texture = OpenCvSharp.Unity.MatToTexture(m);
+        //rawImage.texture = OpenCvSharp.Unity.MatToTexture(m);
 
 
         return (Cv2.Sum(m).Val0 > umbralSum) ? true : false;

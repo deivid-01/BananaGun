@@ -9,6 +9,8 @@ public class ImageProcessing : MonoBehaviour
 
     public int toleranceMuzzle;
 
+    public int thresholdLazer;
+
     int umbralSum = 50000;
 
    public bool findMuzzle;
@@ -17,10 +19,14 @@ public class ImageProcessing : MonoBehaviour
     Pointer pointer;
     WebCamTexture webCamTexture;
 
+    private void Awake()
+    {
+       
+    }
 
     private void Start()
     {
-        UIControls.mouseController = false;
+       
             pointer = Pointer.instance;
 
         if (UIControls.mouseController)
@@ -67,7 +73,7 @@ public class ImageProcessing : MonoBehaviour
             }
             if (findLazer)
             {
-                if (ObjectDetection.DetectLazer(ref rawImageCamera, mat.ExtractChannel(1).Flip(FlipMode.Y), umbralSum))
+                if (ObjectDetection.DetectLazer(ref rawImageCamera, thresholdLazer, mat.ExtractChannel(1).Flip(FlipMode.Y), umbralSum))
                 {
                     
                     GameEvent.instance.StartShoot(new Vector2(pointer.rect.anchoredPosition.x, 720 + pointer.rect.anchoredPosition.y));
@@ -81,6 +87,7 @@ public class ImageProcessing : MonoBehaviour
 
     void StopCamera()
     {
+        if (webCamTexture is null) return;
         if (webCamTexture.isPlaying)
         {
             webCamTexture.Stop();

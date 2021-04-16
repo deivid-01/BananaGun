@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyShape : MonoBehaviour
 {
-    public static Vector3 maximumSize = new Vector3(5,5,5);
-    public static Vector3 minimumSize = new Vector3(1,1,1);
+    public static Vector3 maximumSize = new Vector3(4,4,4);
+    public static Vector3 minimumSize = new Vector3(2f,2f,2f);
     
     
 

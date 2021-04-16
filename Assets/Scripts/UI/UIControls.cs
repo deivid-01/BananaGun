@@ -7,7 +7,12 @@ public class UIControls : MonoBehaviour
 {
     public string nextScene;
 
-    public static bool mouseController = true;
+    public static bool mouseController = false;
+
+    private void Start()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 
     public void SetController(bool option)
     {

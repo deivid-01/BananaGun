@@ -26,6 +26,15 @@ public static class RandomNew
 }
 public class EnemySpawner : MonoBehaviour
 {
+    struct elements
+    {
+        public int i;
+        public int j;
+        public int k;
+
+    }
+
+
     public GameObject prefabEnemy;
     public GameObject effectShowup;
 
@@ -41,13 +50,16 @@ public class EnemySpawner : MonoBehaviour
     List<int> randomDimX = new List<int>();
     List<int> randomDimY = new List<int>();
     List<int> randomDimZ = new List<int>();
+    List<elements> elementos = new List<elements>();
+
+
 
     private void Awake()
     {
-        maxNumEnemys = (int)(dimensions.x * dimensions.y * dimensions.z);
+        maxNumEnemys = 15;//(int)(dimensions.x * dimensions.y * dimensions.z);
         SetEnemyPositions();
         SetGoldIndexs();
-        SetRandomStacks();
+       SetRandomStacks();
         
 
     }
@@ -58,7 +70,9 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
 
-        GameEvent.instance.OnStartGame += StartSpawn;
+      GameEvent.instance.OnStartGame += StartSpawn;
+
+     //   StartSpawn();
     }
 
     void SetRandomStacks() {
@@ -104,24 +118,45 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemys()
     {
-        for (int i = 0; i < dimensions.x; i++)
-        {
-            for (int j = 0; j < dimensions.y; j++)
+        int cont = 0;
+        while(cont<=maxNumEnemys)
+         {
+            elements elem;
+
+            elem.i = UnityEngine.Random.Range(0, (int)dimensions.x);
+            elem.j = UnityEngine.Random.Range(0, (int)dimensions.y);
+            elem.k = UnityEngine.Random.Range(0, (int)dimensions.z);
+
+            if (elementos.Contains(elem)) continue;
+
+            elementos.Add(elem);
+
+            if (!randomDimX.Contains(elem.i) && !randomDimY.Contains(elem.j) && !randomDimZ.Contains(elem.k)) continue;
+
+            if (idxsX.Contains(elem.i) )
             {
-                for (int k = 0; k < dimensions.z; k++)
-                {
-                    if (!idxsX.Contains(randomDimX[i]) || !idxsY.Contains(randomDimY[j]) || !idxsZ.Contains(randomDimZ[k]) ) continue;
-
-                    yield return new WaitForSeconds(0.6f);
-                    GameObject effect= Instantiate(effectShowup, this.transform.position + enemysPositions[randomDimX[i], randomDimY[j], randomDimZ[k]], Quaternion.identity);
-                    yield return new WaitForSeconds(0.5f);
-                    Destroy(effect, 1);
-                    GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[randomDimX[i], randomDimY[j], randomDimZ[k]], Quaternion.identity);
-
-                    enemy.transform.parent = gameObject.transform;
-                }
+                randomDimX.Remove(elem.i);
             }
-        }
+            if (idxsY.Contains(elem.j))
+            {
+                randomDimY.Remove(elem.j);
+            }
+            if (idxsZ.Contains(elem.k))
+            {
+                randomDimZ.Remove(elem.k);
+            }
+          
+            yield return new WaitForSeconds(0.6f);
+                   GameObject effect= Instantiate(effectShowup, this.transform.position + enemysPositions[elem.i, elem.j,elem. k], Quaternion.identity);
+            yield return new WaitForSeconds(0.5f);
+                  Destroy(effect, 1);
+                  GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[elem.i,elem. j,elem.k], Quaternion.identity);
+                  //GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[i, j,k], Quaternion.identity);
+
+            enemy.transform.parent = gameObject.transform;
+            cont = cont + 1;
+         }
+       
 
         yield return new WaitForSeconds(2);
     

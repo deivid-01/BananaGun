@@ -5,21 +5,16 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     public GameObject impactEffect;
-
+    public float fireRate = 3f; 
    
-
-
-    public static Shooting intance;
+    private float nextTimeToFire = 0F;
 
     private void Start()
     {
         GameEvent.instance.OnStartShoot += Shoot;
     }
 
-    private void Awake()
-    {
-        intance = this;
-    }
+   
 
 
 
@@ -29,10 +24,9 @@ public class Shooting : MonoBehaviour
 
         if ( UIControls.mouseController)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0) )
             {
                   Shoot(Input.mousePosition);
-
             }
         }
         
@@ -40,19 +34,26 @@ public class Shooting : MonoBehaviour
 
     public void Shoot(Vector2 position) 
     {
-       
-        Ray ray = Camera.main.ScreenPointToRay(position);
-       
-        if (Physics.Raycast(ray, out RaycastHit hit, 200))
+
+        if (Time.time >= nextTimeToFire)
         {
-            GameEvent.instance.Shooting( ray.direction);
-                   
-            if (hit.transform.tag.Equals("Enemy"))
+            Ray ray = Camera.main.ScreenPointToRay(position);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 200))
             {
-                GameEvent.instance.EnemyDestroyed();
-               StartCoroutine( InstantiateEffect(hit));
+                GameEvent.instance.Shooting(ray.direction);
+
+                if (hit.transform.tag.Equals("Enemy"))
+                {
+                    GameEvent.instance.EnemyDestroyed();
+                    StartCoroutine(InstantiateEffect(hit));
+                }
             }
+
+            nextTimeToFire = Time.time + (1f / fireRate);
         }
+
+       
     
     }
 
