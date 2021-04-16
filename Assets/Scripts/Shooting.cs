@@ -14,7 +14,10 @@ public class Shooting : MonoBehaviour
         GameEvent.instance.OnStartShoot += Shoot;
     }
 
-   
+    private void OnDestroy()
+    {
+        GameEvent.instance.OnStartShoot -= Shoot;
+    }
 
 
 

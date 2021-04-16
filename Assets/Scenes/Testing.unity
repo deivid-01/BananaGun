@@ -267,7 +267,7 @@ MonoBehaviour:
   rawImageCamera: {fileID: 186572836}
   toleranceMuzzle: 50
   thresholdLazer: 145
-  findMuzzle: 0
+  findMuzzle: 1
   findLazer: 1
 --- !u!4 &688313587
 Transform:
@@ -765,7 +765,7 @@ PrefabInstance:
     - target: {fileID: 9165042441016448850, guid: 0f2b372ef4a67c04aa087d6f4aa22dfd,
         type: 3}
       propertyPath: speed
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f2b372ef4a67c04aa087d6f4aa22dfd, type: 3}

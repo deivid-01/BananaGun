@@ -11,14 +11,15 @@ public class UIGame : MonoBehaviour
 
     private void Awake()
     {
-        UIControls.mouseController = true;
+       // UIControls.mouseController = true;
     }
     void Start()
     {
         GameEvent.instance.OnRoundEnds += DisplayPoints;
 
      
-        // UIControls.mouseController = (PlayerPrefs.GetInt("mouseActive", 0)==1)?true:false;
+       
+         UIControls.mouseController = (PlayerPrefs.GetInt("mouseActive", 0)==1)?true:false;
     }
     private void OnDestroy()
     {

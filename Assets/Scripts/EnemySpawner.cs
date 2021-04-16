@@ -39,7 +39,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject effectShowup;
 
 
-    int maxNumEnemys;
+    public  int maxNumEnemys = 20;
     public Vector3 dimensions;
 
     Vector3[,,] enemysPositions;
@@ -56,7 +56,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        maxNumEnemys = 15;//(int)(dimensions.x * dimensions.y * dimensions.z);
+       
         SetEnemyPositions();
         SetGoldIndexs();
        SetRandomStacks();
@@ -72,7 +72,7 @@ public class EnemySpawner : MonoBehaviour
 
       GameEvent.instance.OnStartGame += StartSpawn;
 
-     //   StartSpawn();
+
     }
 
     void SetRandomStacks() {
@@ -118,9 +118,13 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemys()
     {
-        int cont = 0;
-        while(cont<=maxNumEnemys)
-         {
+        int spawnedEnemies = 0;
+
+       
+
+
+        while (spawnedEnemies <maxNumEnemys)
+            {
             elements elem;
 
             elem.i = UnityEngine.Random.Range(0, (int)dimensions.x);
@@ -146,16 +150,19 @@ public class EnemySpawner : MonoBehaviour
                 randomDimZ.Remove(elem.k);
             }
           
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(1.5f);
                    GameObject effect= Instantiate(effectShowup, this.transform.position + enemysPositions[elem.i, elem.j,elem. k], Quaternion.identity);
             yield return new WaitForSeconds(0.5f);
-                  Destroy(effect, 1);
+                 Destroy(effect, 1);
                   GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[elem.i,elem. j,elem.k], Quaternion.identity);
                   //GameObject enemy = Instantiate(prefabEnemy, this.transform.position + enemysPositions[i, j,k], Quaternion.identity);
 
             enemy.transform.parent = gameObject.transform;
-            cont = cont + 1;
+            
+            spawnedEnemies += 1;
          }
+
+        print("NUMBER OF SPAWNED ENEMIES "+spawnedEnemies);
        
 
         yield return new WaitForSeconds(2);

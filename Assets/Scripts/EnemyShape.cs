@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class EnemyShape : MonoBehaviour
 {
+    public GameObject effectFail;
+
     public static Vector3 maximumSize = new Vector3(4,4,4);
     public static Vector3 minimumSize = new Vector3(2f,2f,2f);
-    
+
     
 
     void Start()
@@ -40,7 +42,26 @@ public class EnemyShape : MonoBehaviour
 
     private void OnEnable()
     {
-      
+        if (gameObject != null)
+        {
+            StartCoroutine(DestroyEnemy());
+        }
+
+    }
+
+    IEnumerator DestroyEnemy() {
+
+        yield return  new WaitForSeconds(5f);
+
+        if (gameObject != null)
+        {
+            GameEvent.instance.EnemySuccess();
+        }
+
+        gameObject.SetActive(false);
+        GameObject effect = Instantiate(effectFail, transform.position, Quaternion.identity);
+        Destroy(effect, 2);
+        Destroy(gameObject, 2);
     }
 
 }
