@@ -162,7 +162,7 @@ public class EnemySpawner : MonoBehaviour
             spawnedEnemies += 1;
          }
 
-        print("NUMBER OF SPAWNED ENEMIES "+spawnedEnemies);
+      
        
 
         yield return new WaitForSeconds(2);

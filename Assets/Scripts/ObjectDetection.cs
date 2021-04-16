@@ -52,13 +52,15 @@ public class ObjectDetection
     {
 
 
-        Cv2.Threshold(m, m, 145, 255, ThresholdTypes.Binary);
+        Cv2.Threshold(m, m, threshHoldLazer, 255, ThresholdTypes.Binary);
 
        // rawImage.texture = OpenCvSharp.Unity.MatToTexture(m);
 
-        Mat strElem = Cv2.GetStructuringElement(MorphShapes.Cross, new Size(3, 3));
-        Cv2.MorphologyEx(m, m, MorphTypes.Open, strElem, iterations: 20);
-        //rawImage.texture = OpenCvSharp.Unity.MatToTexture(m);
+        Mat strElem = Cv2.GetStructuringElement(MorphShapes.Rect, new Size(3, 3));
+        Cv2.MorphologyEx(m, m, MorphTypes.Open, strElem, iterations: 5);
+        // Cv2.MorphologyEx(m, m, MorphTypes.Close, strElem, iterations: 10);
+        Cv2.Dilate(m, m, strElem, iterations: 30);
+       // rawImage.texture = OpenCvSharp.Unity.MatToTexture(m);
 
 
         return (Cv2.Sum(m).Val0 > umbralSum) ? true : false;

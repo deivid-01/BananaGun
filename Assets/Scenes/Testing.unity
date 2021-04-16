@@ -267,7 +267,7 @@ MonoBehaviour:
   rawImageCamera: {fileID: 186572836}
   toleranceMuzzle: 50
   thresholdLazer: 145
-  findMuzzle: 1
+  findMuzzle: 0
   findLazer: 1
 --- !u!4 &688313587
 Transform:

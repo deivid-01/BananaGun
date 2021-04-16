@@ -7,7 +7,7 @@ public class EnemyShape : MonoBehaviour
     public GameObject effectFail;
 
     public static Vector3 maximumSize = new Vector3(4,4,4);
-    public static Vector3 minimumSize = new Vector3(2f,2f,2f);
+    public static Vector3 minimumSize = new Vector3(2.5f,2.5f,2.5f);
 
     
 

@@ -299,7 +299,7 @@ PrefabInstance:
     - target: {fileID: 9165042441016448850, guid: 0f2b372ef4a67c04aa087d6f4aa22dfd,
         type: 3}
       propertyPath: speed
-      value: 12
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f2b372ef4a67c04aa087d6f4aa22dfd, type: 3}
@@ -1722,7 +1722,7 @@ MonoBehaviour:
     type: 3}
   effectShowup: {fileID: 137862559713589006, guid: d0423b1c5cc48a14582b7ee0ee6b471d,
     type: 3}
-  maxNumEnemys: 20
+  maxNumEnemys: 25
   dimensions: {x: 10, y: 6, z: 4}
 --- !u!4 &1476609311
 Transform:
@@ -1732,7 +1732,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476609309}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.9, y: -5.2, z: -25.11}
+  m_LocalPosition: {x: -19.37, y: -5.47, z: -19.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
