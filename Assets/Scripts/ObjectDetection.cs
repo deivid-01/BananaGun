@@ -5,7 +5,7 @@
 //-------  Jenny Carolina Escobar Sozas    -----------------
 //-------  Contacto:    carolina.escobar@udea.edu.co -------------------
 //------- Proyecto 'Banana Gun' del Curso Procesamiento Digital de Imagenes----
-//------- V1.5 Abril de 2011--------------------------------------------------
+//------- V1.5 Abril de 2021--------------------------------------------------
 //--------------------------------------------------------------------------
 using UnityEngine;  // Importación de la libreria principal de Unity
 using OpenCvSharp; // Importación de la Libreria de OpenCv
